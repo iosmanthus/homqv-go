@@ -50,11 +50,9 @@ func (c *Client) Connect(r Recipient, nonce ed25519.PrivateKey) ([]byte, error) 
 	// e := h(Y, idA)
 	e, _ := edwards25519.NewScalar().SetBytesWithClamping(h1[:32])
 
+	// sigma = [A^(y+be)]^f
 	b := c.s
-	// t = b + e * y
 	t := edwards25519.NewScalar().MultiplyAdd(b, e, y)
-
-	// sigma = [A^(b + e * y)]^f
 	result := new(edwards25519.Point)
 	result.ScalarMult(t, A)
 	result.MultByCofactor(result)
