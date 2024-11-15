@@ -72,10 +72,12 @@ func BenchmarkAgreement(bm *testing.B) {
 	})
 
 	skB, err := ecdh.X25519().GenerateKey(rand.Reader)
+	assert.Nil(bm, err)
+
 	skA, err := ecdh.X25519().GenerateKey(rand.Reader)
+	assert.Nil(bm, err)
 	// Initialize the public key
 	_ = skA.PublicKey()
-	assert.Nil(bm, err)
 	// Compare with simple ECDH
 	bm.Run("ECDH", func(bm *testing.B) {
 		for i := 0; i < bm.N; i++ {
